@@ -27,48 +27,43 @@ public class ExploratoryTestingTest {
     public void tearDown() {
         driver.quit();
     }
+    private static final String productTitle = ".product-page__title";
+    private static final String buttonAdd = ".product-page__order-buttons";
+    private static final String popUp = ".action-notification.show";
+    private static final String cartTitle = ".basket-section__header.active";
+    private static final String productTitleBasket = ".good-info__good-name";
+    private static final String popUpText = "Товар добавлен в корзину";
+    private static final String cartTitleText = "Корзина";
+    private static final String productTitleText = "";
 
-    private Map<String, Object> getConstants() {
-        Map<String, Object> constants = new HashMap<>();
-        constants.put("productTitle", By.cssSelector(".product-page__title"));
-        constants.put("buttonAdd", By.cssSelector(".product-page__order-buttons"));
-        constants.put("popUp", By.cssSelector(".action-notification.show"));
-        constants.put("popUpText", "Товар добавлен в корзину");
-        constants.put("cartTitle", By.cssSelector(".basket-section__header.active"));
-        constants.put("cartTitleText", "Корзина");
-        constants.put("productTitleBasket", By.cssSelector(".good-info__good-name"));
-        return constants;
+    private void findAndClick(String selector) {
+        driver.findElement(By.cssSelector(selector)).click();
+    }
+    private String findAndGetText(String selector) {
+        driver.findElement(By.cssSelector(selector)).getText();
+        return selector;
     }
 
+    private void waitUntil(String selector) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
+    }
     @Test
     public void shouldAddProductToBasket() {
+
         driver.navigate().to("https://www.wildberries.ru/catalog/141357660/detail.aspx");
 
-        Map<String, Object> constants = getConstants();
-
-        By productTitle = (By) constants.get("productTitle");
-        By buttonAdd = (By) constants.get("buttonAdd");
-        By popUp = (By) constants.get("popUp");
-        String popUpText = (String) constants.get("popUpText");
-        By cartTitle = (By) constants.get("cartTitle");
-        String cartTitleText = (String) constants.get("cartTitleText");
-        By productTitleBasket = (By) constants.get("productTitleBasket");
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(productTitle));
-        var productTitleText = driver.findElement(productTitle).getText();
-
-        wait.until(ExpectedConditions.presenceOfElementLocated(buttonAdd));
-        driver.findElement(buttonAdd).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(popUp));
+        waitUntil(buttonAdd);
+        findAndClick(buttonAdd);
+        waitUntil(popUp);
         Assert.assertEquals("Неверный тест сообщения или сообщение отсутствует",
-                popUpText, driver.findElement(popUp).getText());
+                popUpText, findAndGetText(popUp));
 
-        driver.findElement(buttonAdd).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(cartTitle));
+        findAndClick(buttonAdd);
+        waitUntil(cartTitle);
         Assert.assertEquals("Неверный текст или элемент отсутствует",
-                cartTitleText, driver.findElement(cartTitle).getText());
+                cartTitleText, findAndGetText(cartTitle));
 
         Assert.assertEquals("Заголовок не совпадает",
-                productTitleText, driver.findElement(productTitleBasket).getText());
+                productTitleText, findAndGetText(productTitleBasket));
     }
 }
