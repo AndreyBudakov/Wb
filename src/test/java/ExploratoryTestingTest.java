@@ -28,6 +28,7 @@ public class ExploratoryTestingTest {
         driver.quit();
     }
     private static final String productUrl = "https://www.wildberries.ru/catalog/141357660/detail.aspx";
+    private static final String ProductFilterUrl = "https://www.wildberries.ru/";
     private static final String productTitle = ".product-page__title";
     private static final String buttonAdd = ".product-page__order-buttons";
     private static final String popUp = ".action-notification.show";
@@ -35,7 +36,8 @@ public class ExploratoryTestingTest {
     private static final String productTitleBasket = ".good-info__good-name";
     private static final String popUpText = "Товар добавлен в корзину";
     private static final String cartTitleText = "Корзина";
-    private static final String productTitleText = "";
+    private static final String searchLine = "#searchBlock";
+
     private void findAndClick(String selector) {
         driver.findElement(By.cssSelector(selector)).click();
     }
@@ -64,5 +66,11 @@ public class ExploratoryTestingTest {
         Assert.assertEquals("Неверный текст или элемент отсутствует", cartTitleText, findAndGetText(cartTitle));
 
         Assert.assertEquals("Заголовок товара в корзине не совпадает", productTitleText, findAndGetText(productTitleBasket));
+    }
+    @Test
+    public void shouldChangeProductFilte() {
+        driver.navigate().to(ProductFilterUrl);
+
+
     }
 }
