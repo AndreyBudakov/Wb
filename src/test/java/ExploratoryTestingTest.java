@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.time.Duration;
 
 
@@ -26,6 +27,7 @@ public class ExploratoryTestingTest {
     public void tearDown() {
         driver.quit();
     }
+    private static final String productUrl = "https://www.wildberries.ru/catalog/141357660/detail.aspx";
     private static final String productTitle = ".product-page__title";
     private static final String buttonAdd = ".product-page__order-buttons";
     private static final String popUp = ".action-notification.show";
@@ -34,7 +36,6 @@ public class ExploratoryTestingTest {
     private static final String popUpText = "Товар добавлен в корзину";
     private static final String cartTitleText = "Корзина";
     private static final String productTitleText = "";
-
     private void findAndClick(String selector) {
         driver.findElement(By.cssSelector(selector)).click();
     }
@@ -42,14 +43,13 @@ public class ExploratoryTestingTest {
         WebElement element = driver.findElement(By.cssSelector(selector));
         return element.getText();
     }
-
     private void waitUntil(String selector) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
     }
     @Test
     public void shouldAddProductToBasket() {
 
-        driver.navigate().to("https://www.wildberries.ru/catalog/141357660/detail.aspx");
+        driver.navigate().to(productUrl);
 
         waitUntil(productTitle);
         String productTitleText = findAndGetText(productTitle);
