@@ -54,6 +54,15 @@ public class ExploratoryTestingTest {
 
         driver.navigate().to(productUrl);
 
+        String currentURL = driver.getCurrentUrl();
+
+        if (currentURL.equals(productUrl)) {
+            System.out.println("Переход на нужную страницу выполнен успешно");
+        } else {
+            throw new RuntimeException("Этот тест сломан специально для демонстрации ошибки."
+                    + "Url страницы не соответствует переданному");
+        }
+
         waitUntil(productTitle);
         String productTitleText = findAndGetText(productTitle);
 
