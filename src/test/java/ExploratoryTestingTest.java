@@ -1,8 +1,8 @@
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-
 
 public class ExploratoryTestingTest {
     public WebDriver driver;
@@ -23,12 +22,12 @@ public class ExploratoryTestingTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    /*@After
+    @After
     public void tearDown() {
         driver.quit();
-    }*/
+    }
+
     private static final String productUrl = "https://www.wildberries.ru/catalog/141357660/detail.aspx";
-    private static final String ProductFilterUrl = "https://www.wildberries.ru/";
     private static final String productTitle = ".product-page__title";
     private static final String buttonAdd = ".product-page__order-buttons";
     private static final String popUp = ".action-notification.show";
@@ -36,18 +35,20 @@ public class ExploratoryTestingTest {
     private static final String productTitleBasket = ".good-info__good-name";
     private static final String popUpText = "Товар добавлен в корзину";
     private static final String cartTitleText = "Корзина";
-    private static final String searchInput = "#searchInput";
-    private static final String productNameToSearch = "кроссовки мужские";
+
     private void findAndClick(String selector) {
         driver.findElement(By.cssSelector(selector)).click();
     }
+
     public String findAndGetText(String selector) {
         WebElement element = driver.findElement(By.cssSelector(selector));
         return element.getText();
     }
+
     private void waitUntil(String selector) {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
     }
+
     @Test
     public void shouldAddProductToBasket() {
 
@@ -67,12 +68,7 @@ public class ExploratoryTestingTest {
         Assert.assertEquals("Неверный текст или элемент отсутствует",
                 cartTitleText, findAndGetText(cartTitle));
 
-        Assert.assertEquals("Заголовок товара в корзине не совпадает",
+        Assert.assertEquals("Заголовок товара в корзине не совпадает с заголовком добавленного товара ",
                 productTitleText, findAndGetText(productTitleBasket));
-    }
-    @Test
-    public void shouldChangeProductFilter() {
-
-        driver.navigate().to(ProductFilterUrl);
     }
 }
