@@ -1,8 +1,8 @@
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -23,10 +23,10 @@ public class ExploratoryTestingTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    @After
+    /*@After
     public void tearDown() {
         driver.quit();
-    }
+    }*/
     private static final String productUrl = "https://www.wildberries.ru/catalog/141357660/detail.aspx";
     private static final String ProductFilterUrl = "https://www.wildberries.ru/";
     private static final String productTitle = ".product-page__title";
@@ -36,8 +36,8 @@ public class ExploratoryTestingTest {
     private static final String productTitleBasket = ".good-info__good-name";
     private static final String popUpText = "Товар добавлен в корзину";
     private static final String cartTitleText = "Корзина";
-    private static final String searchLine = "#searchBlock";
-
+    private static final String searchInput = "#searchInput";
+    private static final String productNameToSearch = "кроссовки мужские";
     private void findAndClick(String selector) {
         driver.findElement(By.cssSelector(selector)).click();
     }
@@ -59,18 +59,20 @@ public class ExploratoryTestingTest {
         waitUntil(buttonAdd);
         findAndClick(buttonAdd);
         waitUntil(popUp);
-        Assert.assertEquals("Неверный текст сообщения или сообщение отсутствует", popUpText, findAndGetText(popUp));
+        Assert.assertEquals("Неверный текст сообщения или сообщение отсутствует",
+                popUpText, findAndGetText(popUp));
 
         findAndClick(buttonAdd);
         waitUntil(cartTitle);
-        Assert.assertEquals("Неверный текст или элемент отсутствует", cartTitleText, findAndGetText(cartTitle));
+        Assert.assertEquals("Неверный текст или элемент отсутствует",
+                cartTitleText, findAndGetText(cartTitle));
 
-        Assert.assertEquals("Заголовок товара в корзине не совпадает", productTitleText, findAndGetText(productTitleBasket));
+        Assert.assertEquals("Заголовок товара в корзине не совпадает",
+                productTitleText, findAndGetText(productTitleBasket));
     }
     @Test
-    public void shouldChangeProductFilte() {
+    public void shouldChangeProductFilter() {
+
         driver.navigate().to(ProductFilterUrl);
-
-
     }
 }
